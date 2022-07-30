@@ -119,5 +119,8 @@ func (b *Buffer) TrimNewline() {
 //
 // Callers must not retain references to the Buffer after calling Free.
 func (b *Buffer) Free() {
+	if cap(b.bs) > 1 << 16 {
+		return
+	}
 	b.pool.put(b)
 }
